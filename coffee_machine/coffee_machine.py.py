@@ -2,6 +2,7 @@ MENU = {
     "espresso": {
         "ingredients": {
             "water": 50,
+            "milk": 0,
             "coffee": 18,
         },
         "cost": 1.5,
@@ -82,13 +83,10 @@ def update_resources(order):
 
     for resource in resource_lst:
         if resources[resource] < MENU[order]['ingredients'][resource]:
-            print(f'You do not have enough {resource}')
+            print(f'We do not have enough {resource}')
             stop = True
         else:
-            resources[resource] =  resources[resource] - MENU[order]['ingredients'][resource]
-
-
-    report()
+            resources[resource] = resources[resource] - MENU[order]['ingredients'][resource]
 
     return stop
 
@@ -135,18 +133,21 @@ def coffee_maker():
         if invalid_drink:
             print('That is not a valid drink option. Try again.')
         else:
-            price = MENU[order]['cost']
-            print(f'That will be {price}\n')
-
-            # TODO: 6. Check transaction successful?
-            profit = argent(price, profit)
-
-            # TODO: 7. Make Coffee.
             stop = update_resources(order)
-
             if stop:
                 print('Sorry we do not have enough ingredients today.')
+
             else:
+
+                price = MENU[order]['cost']
+                print(f'That will be {price}\n')
+
+                # TODO: 6. Check transaction successful?
+                profit = argent(price, profit)
+
+                # TODO: 7. Make Coffee.
+                report()
+
                 print(f'Here is your {order}\n')
                 print(f'The machine has profited {profit}')
 
