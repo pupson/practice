@@ -2,8 +2,29 @@ from tkinter import *
 from tkinter import messagebox
 from random import choice, shuffle, randint
 import pyperclip
+import json
 
 FONT_NAME = "Arial"
+
+# ---------------------------- SEARCH PASSWORDS DATABASE ------------------------------- #
+def find_pass():
+    web_input = web_entry.get()
+
+    try:
+        with open('data.json', 'r') as data_file:
+            # data.write(f'{web_input} | {email_input}| {pass_input} \n')
+            # reading old data
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showwarning(title="Data file does not exist", message='Please create a data entry first')
+    else:
+        password = data.get(web_input, {}).get('password')
+        email = data.get(web_input, {}).get('email')
+        if password:
+            messagebox.showwarning(title=web_input, message=f'Email: {email}\nPassword: {password}')
+        else:
+            messagebox.showwarning(title="Error", message=f'Entry for {web_input}does not exist')
+
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def pass_gen():
@@ -28,15 +49,35 @@ def save():
     web_input = web_entry.get()
     email_input = email_entry.get()
     pass_input = pass_entry.get()
+    new_data = {
+        web_input: {
+            'email': email_input,
+            'password': pass_input,
+        }
+    }
 
     if len(web_input) == 0 or len(pass_input) == 0:
         messagebox.showwarning(title="Entry box empty", message='Please enter a valid email or password')
     else:
-        is_ok = messagebox.askokcancel(title=web_input, message=f'Inputting Email: {email_input}\n Password: {pass_input}')
-        if is_ok:
-            with open('data.txt', 'a') as data:
-                data.write(f'{web_input} | {email_input}| {pass_input} \n')
+        # is_ok = messagebox.askokcancel(title=web_input, message=f'Inputting Email: {email_input}\n Password: {pass_input}')
+        # if is_ok:
+        try:
+            with open('data.json', 'r') as data_file:
+                # data.write(f'{web_input} | {email_input}| {pass_input} \n')
+                # reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open('data.json', 'w') as data_file:
+                # saving updated data
+                json.dump(new_data, data_file, indent=4)
+        else:
+            # updating old data with new data
+            data.update(new_data)
 
+            with open('data.json', 'w') as data_file:
+                #saving updated data
+                json.dump(data, data_file, indent=4)
+        finally:
             web_entry.delete(0, END)
             pass_entry.delete(0, END)
 
@@ -61,6 +102,9 @@ email_label.grid(column=0, row=2)
 pass_label = Label(text='Password: ', font=(FONT_NAME, 10, 'bold'))
 pass_label.grid(column=0, row=3)
 
+search_button = Button(text="Search", command=find_pass)
+search_button.grid(column=2, row=1, sticky="EW")
+
 gen_button = Button(text="Generate Password", command=pass_gen)
 gen_button.grid(column=2, row=3)
 
@@ -72,7 +116,7 @@ web_entry = Entry()
 web_entry.focus()
 #Gets text in entry
 web_input = web_entry.get()
-web_entry.grid(column=1, row=1, columnspan=2, sticky="EW")
+web_entry.grid(column=1, row=1, sticky="EW")
 
 email_entry = Entry()
 email_entry.insert(END, 'your_email@gmail.com')
