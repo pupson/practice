@@ -14,12 +14,12 @@ import smtplib
 import pandas
 import random
 
-g_email = 'sarabi.louise@gmail.com'
+g_email = '####@gmail.com'
 g_smtp = 'smtp.gmail.com'
-g_password ='baconpancakes'
-y_email = 'pomelo.louise@yahoo.com'
+g_password ='#####'
+y_email = '######@yahoo.com'
 y_smtp = 'smtp.mail.yahoo.com'
-y_password = 'qciaknpnozpzgpqj'
+y_password = '#####'
 
 now = dt.datetime.now()
 year = now.year
