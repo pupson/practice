@@ -3,8 +3,8 @@ import datetime as dt
 import smtplib
 import time
 
-MY_LAT = 37.816994
-MY_LNG = -122.120273
+MY_LAT = ##########
+MY_LNG = ##########
 
 
 def iss_near():

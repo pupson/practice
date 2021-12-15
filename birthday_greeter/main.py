@@ -48,7 +48,7 @@ if today_tuple in bday_dict:
     bday_person = bday_dict[today_tuple]
     letter = ''.join(quote_maker())
     letter = letter.replace('[NAME]', bday_person['name'])
-    letter = letter.replace('[SENDER]', 'Pomelo')
+    letter = letter.replace('[SENDER]', 'name')
     email = bday_person['email']
 
     with smtplib.SMTP(y_smtp, port=587) as connection:
@@ -61,7 +61,7 @@ if today_tuple in bday_dict:
 
     letter = ''.join(quote_maker())
     letter = letter.replace('[NAME]', bday_person['name'])
-    letter = letter.replace('[SENDER]', 'Sarabi')
+    letter = letter.replace('[SENDER]', 'name')
     email = bday_person['email']
 
     with smtplib.SMTP(g_smtp, port=587) as connection:
