@@ -1,3 +1,3 @@
-# 100 Days of Code - Python projects
+# Python projects
 
 Code dump for practice projects
